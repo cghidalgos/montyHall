@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='myStyle.css') }}">
+    <title>Monty Hall - Decisión</title>
+</head>
+<body>
+    <div class="body">
+        <div class="wrapper">
+            <form class="form2" method="POST">
+                <h2>¡Hola, {{ nombre }}!</h2>
+                <b>Monty abrió una puerta vacía.</b>
+                <p>¿Quieres cambiar tu elección o quedarte con la misma?</p>
+                <div class="decisiones">
+                    <!-- Puerta 1 -->
+                    <div>
+                        <img src="{{ url_for('static', filename='img/cabra.png') if puerta_abierta == 1 else url_for('static', filename='img/puerta_cerrada.png') }}" alt="Puerta 1">
+                        <p>Puerta 1</p>
+                    </div>
+
+                    <!-- Puerta 2 -->
+                    <div>
+                        <img src="{{ url_for('static', filename='img/cabra.png') if puerta_abierta == 2 else url_for('static', filename='img/puerta_cerrada.png') }}" alt="Puerta 2">
+                        <p>Puerta 2</p>
+                    </div>
+
+                    <!-- Puerta 3 -->
+                    <div>
+                        <img src="{{ url_for('static', filename='img/cabra.png') if puerta_abierta == 3 else url_for('static', filename='img/puerta_cerrada.png') }}" alt="Puerta 3">
+                        <p>Puerta 3</p>
+                    </div>
+                </div>
+
+                <button type="submit" class="submitd" name="decision" value="cambiar">Cambiar de puerta</button>
+                <button type="submit" class="submitd" name="decision" value="mantener">Mantener elección</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='myStyle.css') }}">
+    <title>Monty Hall - Juego</title>
+</head>
+<body>
+    <div class="body">
+        <div class="wrapper">
+            <form class="form2" method="POST">
+                <h2>¡Hola, {{ nombre }}!</h2>
+                <b>Selecciona una puerta</b>
+                <p>¡Una tiene un premio fantástico!</p>
+                <div class="puertas">
+              
+                    <div>
+                        <img src="{{ url_for('static', filename='img/puerta_cerrada.png') }}" alt="Puerta 1">
+                        <button type="submit" class="submit" name="puerta" value="1">Puerta 1</button>
+                    </div>
+                
+                    <div>
+                        <img src="{{ url_for('static', filename='img/puerta_cerrada.png') }}" alt="Puerta 2">
+                        <button type="submit" class="submit" name="puerta" value="2">Puerta 2</button>
+                    </div>
+                
+                    <div>
+                        <img src="{{ url_for('static', filename='img/puerta_cerrada.png') }}" alt="Puerta 3">
+                        <button type="submit" class="submit" name="puerta" value="3">Puerta 3</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

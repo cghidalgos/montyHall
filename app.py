@@ -1,8 +1,9 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, session, redirect, url_for
 import numpy as np
 import random
 
 app = Flask(__name__)
+app.secret_key = "montyhall_secret_key"
 
 def simul(ns):
     cont_high_prob = 0
@@ -22,8 +23,8 @@ def simul(ns):
 
     return round(cont_high_prob / ns, 4)
 
-@app.route("/", methods=["GET", "POST"])
-def index():
+@app.route("/simu", methods=["GET", "POST"])
+def simu():
     probability = None
     num_simulations = None
     
@@ -31,7 +32,80 @@ def index():
         num_simulations = int(request.form["num_simulations"])
         probability = simul(num_simulations)
 
-    return render_template("index.html", probability=probability, num_simulations=num_simulations)
+    return render_template("simu.html", probability=probability, num_simulations=num_simulations)
+
+
+@app.route("/", methods=["GET", "POST"])
+def index():
+    if request.method == "POST":
+        session["nombre"] = request.form["nombre"]
+        return redirect(url_for("juego"))
+    return render_template("index.html")
+
+@app.route("/juego", methods=["GET", "POST"])
+def juego():
+    
+    
+
+    if request.method == "POST":
+        session["eleccion_inicial"] = int(request.form["puerta"])
+        session["premio"] = random.randint(1, 3)
+
+        puertas_posibles = [1, 2, 3]
+        puertas_posibles.remove(session["premio"])
+        if session["eleccion_inicial"] in puertas_posibles:
+            puertas_posibles.remove(session["eleccion_inicial"])
+
+        session["puerta_abierta"] = random.choice(puertas_posibles)
+        return redirect(url_for("decision"))
+
+    return render_template("juego.html",nombre=session["nombre"],)
+
+@app.route("/decision", methods=["GET", "POST"])
+def decision():
+    if request.method == "POST":
+        eleccion = request.form["decision"]
+
+        if eleccion == "cambiar":
+            opciones_restantes = [1, 2, 3]
+            opciones_restantes.remove(session["eleccion_inicial"])
+            opciones_restantes.remove(session["puerta_abierta"])
+            session["eleccion_final"] = opciones_restantes[0]
+        else:
+            session["eleccion_final"] = session["eleccion_inicial"]
+
+        return redirect(url_for("resultado"))
+
+    return render_template("decision.html",
+                           nombre=session["nombre"],
+                           puerta_abierta=session["puerta_abierta"],
+                           eleccion_inicial=session["eleccion_inicial"])
+
+
+@app.route("/resultado")
+def resultado():
+
+    if session["eleccion_final"] == session["premio"]:
+        ganaste = True
+    else:
+        ganaste = False
+
+   
+
+    
+
+    return render_template("resultado.html",
+                           nombre=session["nombre"],
+                           ganaste=ganaste,
+                           premio=session["premio"],
+                           eleccion_final=session["eleccion_final"])
+
+@app.route("/reiniciar", methods=["POST"])
+def reiniciar():
+    nombre = session.get("nombre")
+    session.clear()
+    session["nombre"] = nombre
+    return redirect("/juego")
 
 if __name__ == "__main__":
     app.run(debug=True)

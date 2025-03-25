@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='myStyle.css') }}">
+    <title>Monty Hall - Resultado</title>
+  
+</head>
+<body>
+    <div class="body">
+        <div class="wrapper">
+
+            <form class="form2" action="/reiniciar" method="POST">
+            <div class="mensaje-final">
+                {% if ganaste == True %}
+                    <p>¡Felicidades, {{ nombre }}! Encontraste el premio. 🎉</p>
+                {% else %}
+                    <p>Lo siento, {{ nombre }}. No acertaste, pero fue un buen intento. 💔</p>
+                {% endif %}
+            </div>
+
+            <div class="decisiones">
+                <!-- Puerta 1 -->
+                <div>
+                    <img src="{{ url_for('static', filename='img/premio.png') if premio == 1 else url_for('static', filename='img/cabra.png') }}" alt="Puerta 1">
+                    <p>Puerta 1</p>
+                </div>
+
+                <!-- Puerta 2 -->
+                <div>
+                    <img src="{{ url_for('static', filename='img/premio.png') if premio == 2 else url_for('static', filename='img/cabra.png') }}" alt="Puerta 2">
+                    <p>Puerta 2</p>
+                </div>
+
+                <!-- Puerta 3 -->
+                <div>
+                    <img src="{{ url_for('static', filename='img/premio.png') if premio == 3 else url_for('static', filename='img/cabra.png') }}" alt="Puerta 3">
+                    <p>Puerta 3</p>
+                </div>
+            </div>
+
+            <input type="submit" class="submitr" value="Volver">
+            </form>
+        </div>
+    </div>
+</body>
+</html>

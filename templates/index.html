@@ -1,25 +1,36 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Simulación Monty Hall</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="{{ url_for('static', filename='myStyle.css') }}">
+  <title>Monty Hall</title>
 </head>
 <body>
-    <div class="container">
-        <h1>Simulación del Problema de Monty Hall</h1>
-        <form method="POST">
-            <label for="num_simulations">Número de Simulaciones:</label>
-            <input type="number" name="num_simulations" id="num_simulations" min="10" max="100000" required>
-            <button type="submit">Ejecutar Simulación</button>
-        </form>
+  <div class="wrapper">
+    <form action="" class="form">
+      <h1>Monty Hall</h1>
+      <br><br>
+      <center>
+      <div class="input-group">
+        <a href="#registra-nombre" class="submit-btn">Juega</a>
+      <br>
+        <a href="/simu" class="submit-btn">Simulaciones</a>
+      </div>
+    </center>
+    </form>
 
-        {% if probability is not none %}
-            <h2>Resultados</h2>
-            <p>Se realizaron <strong>{{ num_simulations }}</strong> simulaciones.</p>
-            <p>Probabilidad de ganar al cambiar de puerta: <strong>{{ probability }}</strong></p>
-        {% endif %}
+    <div id="registra-nombre">
+      <form method="POST" action="{{ url_for('index') }}" class="form">
+        <a href="#" class="close">&times;</a>
+        <h2>Ingresa tu nombre</h2>
+        <div class="input-group">
+          <input type="text" name="nombre" id="nombre" required>
+        </div>
+        <input type="submit" value="Inicia" class="submit-btn">
+      </form>
     </div>
+  </div>
 </body>
 </html>
