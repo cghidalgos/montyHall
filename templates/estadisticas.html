@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estadísticas</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; }
+        table { margin: auto; border-collapse: collapse; width: 50%; }
+        th, td { border: 1px solid black; padding: 10px; }
+        th { background-color: lightgray; }
+        a { display: block; margin-top: 20px; }
+    </style>
+</head>
+<body>
+    <h1>Estadísticas del Juego</h1>
+    <table>
+        <tr>
+            <th>Total de juegos</th>
+            <td>{{ juegos_totales }}</td>
+        </tr>
+        <tr>
+            <th>Ganadas cambiando de puerta</th>
+            <td>{{ ganadas_cambiando }}</td>
+        </tr>
+        <tr>
+            <th>Perdidas cambiando de puerta</th>
+            <td>{{ perdidas_cambiando }}</td>
+        </tr>
+        <tr>
+            <th>Ganadas sin cambiar de puerta</th>
+            <td>{{ ganadas_sin_cambiar }}</td>
+        </tr>
+        <tr>
+            <th>Perdidas sin cambiar de puerta</th>
+            <td>{{ perdidas_sin_cambiar }}</td>
+        </tr>
+    </table>
+</body>
+</html>

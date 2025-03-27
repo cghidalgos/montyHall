@@ -39,14 +39,19 @@ def simu():
 def index():
     if request.method == "POST":
         session["nombre"] = request.form["nombre"]
+
+        session["juegos_totales"] = 0
+        session["ganadas_cambiando"] = 0
+        session["perdidas_cambiando"] = 0
+        session["ganadas_sin_cambiar"] = 0
+        session["perdidas_sin_cambiar"] = 0
+
         return redirect(url_for("juego"))
+    
     return render_template("index.html")
 
 @app.route("/juego", methods=["GET", "POST"])
 def juego():
-    
-    
-
     if request.method == "POST":
         session["eleccion_inicial"] = int(request.form["puerta"])
         session["premio"] = random.randint(1, 3)
@@ -81,18 +86,22 @@ def decision():
                            puerta_abierta=session["puerta_abierta"],
                            eleccion_inicial=session["eleccion_inicial"])
 
-
 @app.route("/resultado")
 def resultado():
+    session["juegos_totales"] += 1 
 
     if session["eleccion_final"] == session["premio"]:
         ganaste = True
+        if session["eleccion_final"] == session["eleccion_inicial"]:
+            session["ganadas_sin_cambiar"] += 1
+        else:
+            session["ganadas_cambiando"] += 1
     else:
         ganaste = False
-
-   
-
-    
+        if session["eleccion_final"] == session["eleccion_inicial"]:
+            session["perdidas_sin_cambiar"] += 1
+        else:
+            session["perdidas_cambiando"] += 1
 
     return render_template("resultado.html",
                            nombre=session["nombre"],
@@ -100,11 +109,30 @@ def resultado():
                            premio=session["premio"],
                            eleccion_final=session["eleccion_final"])
 
+@app.route("/estadisticas")
+def estadisticas():
+    return render_template("estadisticas.html",
+                           juegos_totales=session["juegos_totales"],
+                           ganadas_cambiando=session["ganadas_cambiando"],
+                           perdidas_cambiando=session["perdidas_cambiando"],
+                           ganadas_sin_cambiar=session["ganadas_sin_cambiar"],
+                           perdidas_sin_cambiar=session["perdidas_sin_cambiar"])
+
 @app.route("/reiniciar", methods=["POST"])
 def reiniciar():
     nombre = session.get("nombre")
+    juegos_totales = session.get("juegos_totales")
+    ganadas_cambiando = session.get("ganadas_cambiando")
+    perdidas_cambiando = session.get("perdidas_cambiando")
+    ganadas_sin_cambiar = session.get("ganadas_sin_cambiar")
+    perdidas_sin_cambiar = session.get("perdidas_sin_cambiar")
     session.clear()
     session["nombre"] = nombre
+    session["juegos_totales"] = juegos_totales
+    session["ganadas_cambiando"] = ganadas_cambiando
+    session["perdidas_cambiando"] = perdidas_cambiando
+    session["ganadas_sin_cambiar"] = ganadas_sin_cambiar
+    session["perdidas_sin_cambiar"] = perdidas_sin_cambiar
     return redirect("/juego")
 
 if __name__ == "__main__":
