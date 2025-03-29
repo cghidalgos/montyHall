@@ -89,5 +89,5 @@ Probabilidad de ganar al cambiar de puerta: 0.667
 ## 📝 Autor
 
 
-- Brayan Diaz Valencia - GHS
+- Brayan Diaz Valencia - Samuel - Nicolas - GHS
 
